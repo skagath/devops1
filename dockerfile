@@ -1,8 +1,20 @@
-FROM node:8.6.0-alpine
+# Use the official Node.js 14 image
+FROM node:14
+
+# Set the working directory inside the container
 WORKDIR /usr/src/app
-COPY package.json .
-COPY package-lock.json .
-RUN npm install -f
+
+# Copy package.json and package-lock.json (if available) to the working directory
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application code
 COPY . .
+
+# Expose the port the app runs on
 EXPOSE 3000
-CMD [ "npm", "start" ]
+
+# Start the application
+CMD ["node", "app.js"]
